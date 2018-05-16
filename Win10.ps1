@@ -85,8 +85,7 @@ $tweaks = @(
 	"HideShutdownFromLockScreen",   # "ShowShutdownOnLockScreen",
 	"DisableStickyKeys",            # "EnableStickyKeys",
 	"ShowTaskManagerDetails"        # "HideTaskManagerDetails",
-	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",
-	"DisableSelectCheckboxes",		# "EnableSelectCheckboxes",
+	"ShowFileOperationsDetails",    # "HideFileOperationsDetails",	
 	# "EnableFileDeleteConfirm",    # "DisableFileDeleteConfirm",
 	"HideTaskbarSearch",            # "ShowTaskbarSearchIcon",      # "ShowTaskbarSearchBox",
 	"HideTaskView",                 # "ShowTaskView",
@@ -1263,18 +1262,6 @@ Function HideFileOperationsDetails {
 	Remove-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" -Name "EnthusiastMode" -ErrorAction SilentlyContinue
 }
 
-# Disable item selection using checkboxex in explorer
-Function DisableSelectCheckboxes {
-	Write-Output "Disabling checkboxes for item selections"
-	Set-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
-}
-
-# Enable item selection using checkboxex in explorer
-Function EnableSelectCheckboxes {
-	Write-Output "Enabling checkboxes for item selections"
-	Set-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
-}
-
 # Enable file delete confirmation dialog
 Function EnableFileDeleteConfirm {
 	Write-Output "Enabling file delete confirmation dialog..."
@@ -1543,13 +1530,13 @@ Function HideHiddenFiles {
 # Hide item selection checkboxes
 Function HideSelectCheckboxes {
 	Write-Output "Hiding item selection checkboxes..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
+	Set-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
 }
 
 # Show item selection checkboxes
 Function ShowSelectCheckboxes {
 	Write-Output "Showing item selection checkboxes..."
-	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
+	Set-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
 }
 
 # Hide sync provider notifications
