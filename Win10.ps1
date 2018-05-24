@@ -146,6 +146,7 @@ $tweaks = @(
 	# "UninstallPDFPrinter",        # "InstallPDFPrinter",
 	"UninstallXPSPrinter",          # "InstallXPSPrinter",
 	"RemoveFaxPrinter",             # "AddFaxPrinter",
+	# "UninstallFaxAndScan",        # "InstallFaxAndScan",
 
 	### Server Specific Tweaks ###
 	# "HideServerManagerOnLogin",   # "ShowServerManagerOnLogin",
@@ -1539,6 +1540,18 @@ Function ShowSelectCheckboxes {
 	Set-ItemProperty -Path "USERHIVE:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
 }
 
+# Hide item selection checkboxes
+Function HideSelectCheckboxes {
+	Write-Output "Hiding item selection checkboxes..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 0
+}
+
+# Show item selection checkboxes
+Function ShowSelectCheckboxes {
+	Write-Output "Showing item selection checkboxes..."
+	Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "AutoCheckSelect" -Type DWord -Value 1
+}
+
 # Hide sync provider notifications
 Function HideSyncNotifications {
 	Write-Output "Hiding sync provider notifications..."
@@ -2331,6 +2344,18 @@ Function RemoveFaxPrinter {
 Function AddFaxPrinter {
 	Write-Output "Adding Default Fax Printer..."
 	Add-Printer -Name "Fax" -DriverName "Microsoft Shared Fax Driver" -PortName "SHRFAX:" -ErrorAction SilentlyContinue
+}
+
+# Uninstall Windows Fax and Scan Services
+Function UninstallFaxAndScan {
+	Write-Output "Uninstalling Windows Fax and Scan Services..."
+	Disable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
+}
+
+# Install Windows Fax and Scan Services
+Function InstallFaxAndScan {
+	Write-Output "Installing Windows Fax and Scan Services..."
+	Enable-WindowsOptionalFeature -Online -FeatureName "FaxServicesClientPackage" -NoRestart -WarningAction SilentlyContinue | Out-Null
 }
 
 
